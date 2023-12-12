@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login and Sign Up Form</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            background-color: whitesmoke;
+            background-image: url("bgp.jpeg");
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .wrapper {
+            width: 400px;
+            padding: 2rem;
+            margin: 80px auto;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            background-image: url("bg.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            border: 2px solid #333;
+            color: #333;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #07001f;
+            margin-bottom: 1.5rem;
+        }
+
+        form input {
+            width: 100%;
+            outline: none;
+            border: 2px solid #333;
+            padding: 14px 20px;
+            margin-bottom: 15px;
+            border-radius: 25px;
+            background: transparent;
+            color: #333;
+        }
+
+        .err {
+            color: #ff4d4d;
+            font-size: 12px;
+            margin-top: -10px;
+            display: block;
+            text-align: left;
+            margin-bottom: 10px;
+        }
+
+        button {
+            font-size: 1rem;
+            margin-top: 1.8rem;
+            padding: 12px 0;
+            border-radius: 25px;
+            outline: none;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+            background: #417bdc;
+            color: #fff;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #11518f;
+        }
+
+        .recover {
+            text-align: right;
+            font-size: 0.9rem;
+            margin: 0.5rem 0 0 0;
+        }
+
+        .recover a {
+            text-decoration: none;
+            color: #464647;
+            font-weight: 500;
+        }
+
+        .member {
+            font-size: 0.9rem;
+            margin-top: 1.4rem;
+            color: #636363;
+        }
+
+        .member a {
+            color: #417bdc;
+            text-decoration: none;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <h1>Login</h1>
+        <form action="login.html" method="post">
+            <input type="text" placeholder="Username" id="username" name="username" oninput="validateUsername()" required>
+            <span class="err" id="error1"></span>
+            <input type="password" placeholder="Password" id="confirmPassword" name="confirmPassword" oninput="validate_password()" required>
+            <span class="err" id="error3"></span>
+            <div class="recover">
+                <a href="#">Forgot Password?</a>
+            </div>
+        </form>
+        <button>Enter</button>
+        <div class="member">
+            New User? <a href="signup.html">Register Here</a>
+        </div>
+    </div>
+<script>
+    function validateUsername() {
+        let username = document.getElementById('username').value;
+        
+        let usernamePattern = /^[A-Z][A-Za-z0-9]*\d.*$/;
+
+        if (usernamePattern.test(username)) {
+            document.getElementById('error1').innerHTML = "";
+            return true;
+        } else {
+            document.getElementById('error1').innerHTML = "*Username must start with a capital letter and contain at least one digit";
+            return false;
+        }
+    }
+    function validate_password() {
+        let password = document.getElementById('confirmPassword').value;
+        if (password.length == 0) {
+            document.getElementById('error3').innerHTML = "";
+        }
+        let uppercaseFlag = false;
+        let lowercaseFlag = false;
+        let specialCharFlag = false;
+        let excludedChars = ",.;:";
+        let specialChars = "!@#$%^&*()-_=+{}[]|'\"<>";
+
+        if (password.length < 8) {
+            document.getElementById('error3').innerHTML = "*Password must be at least 8 characters long";
+            return false;
+        }
+
+        for (let i = 0; i < password.length; i++) {
+            if (password[i] >= 'A' && password[i] <= 'Z') {
+                uppercaseFlag = true;
+            } else if (password[i] >= 'a' && password[i] <= 'z') {
+                lowercaseFlag = true;
+            } else if (specialChars.indexOf(password[i]) !== -1) {
+                specialCharFlag = true;
+            } else if (excludedChars.indexOf(password[i]) !== -1) {
+                document.getElementById('error3').innerHTML = "*Password must not contain , . ; :";
+                return false;
+            }
+        }
+
+        if (uppercaseFlag && lowercaseFlag && specialCharFlag) {
+            document.getElementById('error3').innerHTML = "";
+            return true;
+        } else {
+            document.getElementById('error3').innerHTML = "*Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 special character";
+            return false;
+        }
+    }
+</script>
+</body>
+</html>
