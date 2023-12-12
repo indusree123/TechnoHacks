@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8f8f8;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .wrapper {
+      width: 350px;
+      padding: 2rem;
+      margin: auto;
+      background-color: white;
+      border-radius: 50px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      border: 2px solid black;
+    }
+    h1 {
+      color: #2c3e50;
+      font-size: 24px;
+    }
+    label {
+      display: block;
+      margin-bottom: 10px;
+      color: #34495e;
+    }
+    input {
+      width: calc(100% - 16px);
+      padding: 10px;
+      margin-bottom: 20px;
+      box-sizing: border-box;
+      border: 1px solid #bdc3c7;
+      border-radius: 5px;
+      font-size: 16px;
+      transition: border-color 0.3s ease;
+    }
+    input:focus {
+      outline: none;
+      border-color: #3498db;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 10px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 10px;
+      font-size: 18px;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+    #timer {
+      font-size: 48px;
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+    @keyframes blink {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0.5;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap">
+  <title>Unique Countdown Timer</title>
+</head>
+<body>
+<div class="wrapper">
+  <h1>Explore</h1>
+  <label for="initialTime">Set Your Countdown (Minutes): </label>
+  <input type="number" id="initialTime" min="1" value=" " />
+  <button onclick="setInitialTime()">Set the Adventure</button>
+  <div id="timer">00:00:00</div>
+  <button onclick="startTimer()">Start</button>
+  <button onclick="stopTimer()">Pause</button>
+  <button onclick="resetTimer()">Reset </button>
+</div>
+<script>
+  let timer;
+  let initialTimeInSeconds = 0;
+  let timeInSeconds = initialTimeInSeconds;
+  function updateTimerDisplay() {
+    const hours = Math.floor(timeInSeconds / 3600);
+    const minutes = Math.floor((timeInSeconds % 3600) / 60);
+    const seconds = timeInSeconds % 60;
+    const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    document.getElementById('timer').innerText = formattedTime;
+  }
+  function setInitialTime() {
+    const userInput = parseInt(document.getElementById('initialTime').value, 10);
+    if (!isNaN(userInput) && userInput > 0) {
+      initialTimeInSeconds = userInput * 60;
+      timeInSeconds = initialTimeInSeconds;
+      updateTimerDisplay();
+    } else {
+      alert('Please enter a valid number.');
+    }
+  }
+  function startTimer() {
+    timer = setInterval(() => {
+      if (timeInSeconds > 0) {
+        timeInSeconds--;
+        updateTimerDisplay();
+      } else {
+        stopTimer();
+      }
+    }, 1000);
+  }
+  function stopTimer() {
+    clearInterval(timer);
+  }
+  function resetTimer() {
+    stopTimer();
+    timeInSeconds = initialTimeInSeconds;
+    updateTimerDisplay();
+  }
+  updateTimerDisplay();
+</script>
+</body>
+</html>
